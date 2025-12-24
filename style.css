@@ -13,7 +13,7 @@
 html,body{height:100%}
 body{
   margin:0;
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
   color:var(--txt);
   background: radial-gradient(1200px 700px at 40% 0%, rgba(90,140,255,0.18), transparent 60%),
               radial-gradient(900px 600px at 80% 10%, rgba(0,255,190,0.12), transparent 55%),
@@ -246,3 +246,20 @@ body{
   font-size:12px;
   padding:0 6px;
 }
+
+/* PLAY MODE: hide everything except the canvas */
+body.playmode .panel{ display:none; }
+body.playmode .levels{ display:none; }
+body.playmode .topbar{ display:none; }
+body.playmode .footer{ display:none; }
+
+body.playmode .app{ grid-template-columns: 1fr; }
+body.playmode .stage{ padding:0; }
+body.playmode .content{ grid-template-columns: 1fr; gap:0; padding:0; }
+body.playmode #game{
+  border-radius:0;
+  border:none;
+  width:100vw;
+  height:100vh;
+}
+
