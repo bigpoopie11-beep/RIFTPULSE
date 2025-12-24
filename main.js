@@ -132,51 +132,61 @@
   const LEVELS=[
     {
       id:"l1", name:"Stereo Spark", diff:"Easy", theme:"easy",
-      baseSpeed: 610, length: 6400,
+      baseSpeed: 590, length: 6200,
       obs:[
-        [0,1700,46,56],
-        [1,2000,90,40],[1,2160,90,55],[1,2320,90,70],
-        [0,2550,46,56],
-        [1,2800,120,60],
-        [4,3050, 325, 18], // reachable, OPTIONAL
-        [3,3300,70,16],
-        [1,3460,150,90],
-        [2,3850,90,22],[2,4010,90,22],[2,4170,90,22],[2,4330,90,22],
-        [0,4700,46,56],[0,4880,46,56],
-        [1,5200,180,70],
+        // give time to react
+        [0,1900,46,56],
+
+        // small steps (beatable)
+        [1,2300,90,22],[1,2460,90,30],[1,2620,90,38],
+        [0,2900,46,56],
+
+        // safe platform + optional orb
+        [1,3200,130,55],
+        [4,3500, 325, 18],
+
+        // pad -> landing platform
+        [3,3850,70,16],
+        [1,4020,160,85],
+
+        // falling tiles section
+        [2,4500,90,22],[2,4660,90,22],[2,4820,90,22],[2,4980,90,22],
+
+        // finish spikes + safe
+        [0,5350,46,56],[0,5530,46,56],
+        [1,5800,200,70],
       ]
     },
     {
       id:"l2", name:"Backbeat Blvd", diff:"Medium", theme:"mid",
-      baseSpeed: 680, length: 7200,
+      baseSpeed: 660, length: 7100,
       obs:[
-        [1,1600,90,50],[1,1760,90,70],[1,1920,90,90],
-        [0,2200,46,56],
-        [4,2520, 325, 18],
-        [3,2750,70,16],
-        [1,2920,140,110],
-        [2,3300,90,22],[2,3460,90,22],[2,3620,90,22],[2,3780,90,22],[2,3940,90,22],
-        [5,4300, 220, 70, 140, 1.12],
-        [0,5100,46,56],
-        [1,5400,160,95],
-        [0,6000,46,56],
+        [1,2000,110,40],[1,2200,110,55],[1,2400,110,70],
+        [0,2700,46,56],
+        [4,3100, 325, 18],
+        [3,3400,70,16],
+        [1,3560,160,105],
+        [2,4000,90,22],[2,4160,90,22],[2,4320,90,22],[2,4480,90,22],[2,4640,90,22],
+        [5,5050, 220, 70, 140, 1.10],
+        [0,5850,46,56],
+        [1,6150,180,90],
       ]
     },
     {
       id:"l3", name:"Rage Circuit", diff:"Hard", theme:"hard",
-      baseSpeed: 740, length: 8000,
+      baseSpeed: 720, length: 7900,
       obs:[
-        [1,1500,90,55],[1,1660,90,80],[1,1820,90,105],
-        [0,2100,46,56],
-        [4,2500, 325, 18],
-        [4,2800, 295, 18],
-        [2,3200,90,22],[2,3360,90,22],[2,3520,90,22],[2,3680,90,22],
-        [0,4020,46,56],
-        [5,4500, 220, 70, 140, 1.18],
-        [3,5200,70,16],
-        [1,5360,120,120],[1,5540,120,140],
-        [0,6200,46,56],
-        [1,6800,160,110],
+        [1,2000,110,55],[1,2200,110,75],[1,2400,110,95],
+        [0,2700,46,56],
+        [4,3150, 325, 18],
+        [4,3500, 295, 18],
+        [2,4100,90,22],[2,4260,90,22],[2,4420,90,22],[2,4580,90,22],
+        [0,4920,46,56],
+        [5,5400, 220, 70, 140, 1.16],
+        [3,6000,70,16],
+        [1,6180,140,120],[1,6380,140,140],
+        [0,6900,46,56],
+        [1,7300,220,110],
       ]
     }
   ];
@@ -232,6 +242,7 @@
     setStatus("Menu");
     screenTitleEl.textContent="Pick a Level";
     screenSubEl.textContent="Select one, then press Play";
+    stopMusic();
   }
 
   function startRun(){
@@ -452,28 +463,6 @@
     ctx.rotate(ang);
     rr(-player.s/2, -player.s/2, player.s, player.s, 8);
     ctx.fill(); ctx.stroke();
-
-    // face mood per level
-    ctx.shadowBlur=0;
-    ctx.fillStyle="rgba(255,255,255,0.9)";
-    ctx.strokeStyle="rgba(255,255,255,0.9)";
-    ctx.lineWidth=2;
-    const eyeY=-4;
-    ctx.beginPath(); ctx.arc(-8,eyeY,2.4,0,Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.arc( 8,eyeY,2.4,0,Math.PI*2); ctx.fill();
-
-    if(selected.diff==="Easy"){
-      ctx.beginPath(); ctx.arc(0,6,10,0.15*Math.PI,0.85*Math.PI); ctx.stroke();
-    } else if(selected.diff==="Medium"){
-      ctx.beginPath(); ctx.moveTo(-10,8); ctx.lineTo(10,8); ctx.stroke();
-    } else {
-      ctx.beginPath();
-      ctx.moveTo(-12,-10); ctx.lineTo(-4,-6);
-      ctx.moveTo( 12,-10); ctx.lineTo( 4,-6);
-      ctx.stroke();
-      ctx.beginPath(); ctx.arc(0,12,10,1.15*Math.PI,1.85*Math.PI); ctx.stroke();
-    }
-
     ctx.restore();
   }
 
@@ -485,16 +474,14 @@
     rr(14,14,360,46,14); ctx.fill();
     ctx.fillStyle="rgba(255,255,255,0.88)";
     ctx.font=`${(h*0.03)|0}px system-ui`;
-
     if(!player.alive) ctx.fillText("CRASHED — restarting…", 28, 44);
     else if(paused) ctx.fillText("PAUSED (P) • ESC menu", 28, 44);
-    else ctx.fillText("Jump: click/space • Orbs boost automatically", 28, 44);
+    else ctx.fillText("Jump: click/space • Orbs auto-boost", 28, 44);
     ctx.restore();
   }
 
   function update(dt){
     if(state!=="play") return;
-
     world.t += dt*1000;
     if(paused) return;
 
@@ -506,6 +493,8 @@
       return;
     }
 
+    const prevPlayerY = player.y;
+
     world.x += (selected.baseSpeed * speedMult) * dt;
 
     const prog=clamp(world.x/selected.length,0,1);
@@ -515,7 +504,6 @@
     if(player.onGround) coyote=COYOTE_MAX;
     else coyote=Math.max(0,coyote-dt);
 
-   const prevPlayerY = player.y;
     player.vy -= GRAV*dt;
     player.vy = Math.max(player.vy, MAXF);
     player.y += player.vy*dt;
@@ -592,69 +580,36 @@
         continue;
       }
 
-    if (type === 1 || type === 2) {
-  const ow = o[2], oh = o[3];
-  const falling = (type === 2);
-  const sunk = falling ? sink[i] : 0;
+      if(type===1 || type===2){
+        const ow=o[2], oh=o[3];
+        const falling=(type===2);
+        const sunk=falling?sink[i]:0;
 
-  // block rect in screen space
-  const bx = ox;
-  const by = (gy - oh) + sunk; // TOP of block
-  const bw = ow;
-  const bh = oh;
+        const bx=ox;
+        const by=(gy-oh)+sunk;
+        const bw=ow, bh=oh;
 
-  // player rect
-  const prx = px;
-  const pry = py;
-  const prw = player.s;
-  const prh = player.s;
+        // overlap?
+        if(!aabb(px,py,player.s,player.s, bx,by,bw,bh)) continue;
 
-  // quick overlap test
-  const hit = aabb(prx, pry, prw, prh, bx, by, bw, bh);
-  if (!hit) continue;
+        // landing check using REAL prevPlayerY
+        const prh=player.s, prw=player.s, prx=px, pry=py;
+        const prevPy = gy - player.s - prevPlayerY;
+        const prevBottom = prevPy + prh;
+        const nowBottom = pry + prh;
 
-  // --- LANDING CHECK (from above) ---
-  const prevPy = gy - player.s - prevPlayerY; // REAL previous frame player top
-const prevBottom = prevPy + prh;
-  const nowBottom = pry + prh;
+        const blockTop = by;
+        const withinX = (prx + prw) > bx && prx < (bx + bw);
 
-  const blockTop = by;
-  const withinX = (prx + prw) > bx && prx < (bx + bw);
-
-  // If we crossed the block top this frame, we LAND (and do NOT die)
- if (prevBottom <= blockTop + 6 && nowBottom >= blockTop - 6 && player.vy <= 0) {
-    // snap onto top
-    player.y = (gy - player.s) - blockTop;
-    player.vy = 0;
-    player.onGround = true;
-
-    if (falling) sink[i] += 160 * dt;
-    continue;
-  }
-
-  // --- AUTO STEP (optional help) ---
-  // if you bump a SMALL block while on ground, step onto it instead of dying
-  if (player.onGround && type === 1 && oh <= 80) {
-    const stepMax = player.s * 0.55;
-    const gapToTop = blockTop - (pry + prh);
-    if (gapToTop <= stepMax && gapToTop >= -2 && withinX) {
-      player.y = (gy - player.s) - blockTop;
-      player.vy = 0;
-      player.onGround = true;
-      continue;
-    }
-  }
-
-  // otherwise: side/bottom hit = death (Geometry Dash rule)
-  die();
-  break;
-}
-
-        if(falling && player.onGround && withinX && Math.abs((py+player.s)-by)<3){
-          sink[i]+=160*dt;
+        if (withinX && prevBottom <= blockTop + 6 && nowBottom >= blockTop - 6 && player.vy <= 0) {
+          player.y = (gy - player.s) - blockTop;
+          player.vy = 0;
+          player.onGround = true;
+          if(falling) sink[i]+=160*dt;
+          continue;
         }
 
-        if(aabb(px,py,player.s,player.s, bx,by,ow,oh)){ die(); break; }
+        die(); break;
       }
     }
 
@@ -692,7 +647,6 @@ const prevBottom = prevPy + prh;
           drawPortal(ox,o[2],o[3],o[4],o[5]);
         }
       }
-
       drawPlayer();
       drawHUD();
     }
@@ -718,11 +672,3 @@ const prevBottom = prevPy + prh;
 
   boot();
 })();
-
-
-
-
-
-
-
-
