@@ -166,33 +166,52 @@
   };
 
   // These are BUILT like OG: step blocks + small hazards + “keep jumping” falling tiles.
-  const LEVELS = [
-    {
-      id:"l1",
-      name:"Stereo Spark",
-      diff:"Easy",
-      theme:"easy",
-      baseSpeed: 640,
-      length: 6600,
-      obs: [
-        // Step staircase (landable)
-        [1,1600,90,40],[1,1760,90,55],[1,1920,90,70],[1,2080,90,85],
-        [0,2320,46,56],
+ {
+  id:"l1",
+  name:"Stereo Spark",
+  diff:"Easy",
+  theme:"easy",
+  baseSpeed: 620,
+  length: 6400,
+  obs: [
+    // Flat start (learn timing)
+    [0,1700,46,56],
 
-        // Gentle steps into a pad section
-        [1,2520,110,55],[1,2700,110,70],
-        [3,2900,70,16],
-        [1,3060,120,110],
+    // OG small steps (NOT walls)
+    [1,2000,90,40],
+    [1,2160,90,55],
+    [1,2320,90,70],
 
-        // Falling tile run (must keep hopping)
-        [2,3400,90,22],[2,3560,90,22],[2,3720,90,22],[2,3880,90,22],
+    // a simple spike after steps
+    [0,2550,46,56],
 
-        // Orb timing (optional help)
-        [4,4300, 305, 18],
-        [1,4520,140,70],
-        [0,5100,46,56],
-      ]
-    },
+    // a SHORT block you can land on (safe)
+    [1,2800,120,60],
+
+    // orb placed LOW and reachable (optional help)
+    // You can ignore it and still live.
+    [4,3050, 325, 18],
+
+    // pad makes next part easy (no wall jump)
+    [3,3300,70,16],
+
+    // landing block after pad
+    [1,3460,150,90],
+
+    // falling tiles “keep jumping” section (classic GD)
+    [2,3850,90,22],
+    [2,4010,90,22],
+    [2,4170,90,22],
+    [2,4330,90,22],
+
+    // finish with simple spikes
+    [0,4700,46,56],
+    [0,4880,46,56],
+
+    // final safe platform
+    [1,5200,180,70],
+  ]
+},
     {
       id:"l2",
       name:"Backbeat Boulevard",
@@ -771,28 +790,28 @@
         continue;
       }
 
-      // orb (tap mid-air near orb)
-      if (type === 4) {
-        const ox2 = ox;
-        const oy2 = o[2];
-        const r = o[3];
+     // orb (AUTO boost when you touch it in air)
+if (type === 4) {
+  const orbX = ox;
+  const orbY = o[2];
+  const r = o[3];
 
-        if (!player.onGround && orbCD <= 0 && buffer > 0) {
-          const cx = px + player.s/2;
-          const cy = py + player.s/2;
-          const dx = cx - ox2;
-          const dy = cy - oy2;
-          const rr2 = (r + player.s*0.55) * (r + player.s*0.55);
-          if (dx*dx + dy*dy <= rr2) {
-            buffer = 0;
-            orbCD = 0.12;
-            player.vy = ORBJ;
-            player.onGround = false;
-            sfx.orb();
-          }
-        }
-        continue;
-      }
+  if (!player.onGround && orbCD <= 0) {
+    const cx = px + player.s/2;
+    const cy = py + player.s/2;
+
+    const dx = cx - orbX;
+    const dy = cy - orbY;
+    const rr = (r + player.s*0.7);
+    if (dx*dx + dy*dy <= rr*rr) {
+      orbCD = 0.18;
+      player.vy = ORBJ;
+      player.onGround = false;
+      sfx.orb();
+    }
+  }
+  continue;
+}
 
       // speed portal
       if (type === 5) {
