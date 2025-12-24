@@ -661,7 +661,7 @@
     render(ts);
     requestAnimationFrame(loop);
   }
-
+  }
   function boot(){
     renderLevels();
     updateBestUI();
