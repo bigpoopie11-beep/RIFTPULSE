@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>Neon Dash</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="panel">
+      <div class="brand">
+        <span class="dot"></span>
+        <div class="title">NEON DASH</div>
+      </div>
+
+      <div class="card">
+        <div class="row">
+          <div class="label">Menu</div>
+          <div class="pill" id="statusPill">Ready</div>
+        </div>
+
+        <button class="btn primary" id="btnLevels">
+          <span>Levels</span><span class="kbd">L</span>
+        </button>
+
+        <button class="btn" id="btnPlay">
+          <span>Play</span><span class="kbd">Space</span>
+        </button>
+
+        <button class="btn" id="btnRestart">
+          <span>Restart</span><span class="kbd">R</span>
+        </button>
+
+        <div class="sep"></div>
+
+        <div class="toggles">
+          <label class="toggle">
+            <input type="checkbox" id="musicToggle" checked />
+            <span>Music</span>
+          </label>
+          <label class="toggle">
+            <input type="checkbox" id="particlesToggle" checked />
+            <span>Particles</span>
+          </label>
+        </div>
+
+        <div class="hint">
+          Jump: <b>Space</b>/<b>Up</b> or click/tap • Pause: <b>P</b> • Esc: Menu
+        </div>
+      </div>
+    </aside>
+
+    <main class="stage">
+      <div class="topbar">
+        <div class="left">
+          <div class="heading" id="screenTitle">Pick a Level</div>
+          <div class="sub" id="screenSub">Choose one and hit Play</div>
+        </div>
+        <div class="right">
+          <div class="stat">Best: <span id="bestPct">0%</span></div>
+          <div class="stat">Run: <span id="runPct">0%</span></div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="levels" id="levelsList"></div>
+        <canvas id="game" width="960" height="540" aria-label="Neon Dash Canvas"></canvas>
+
+        <div class="overlay" id="overlay">
+          <div class="overlayCard">
+            <div class="overlayTitle" id="overlayTitle">Neon Dash</div>
+            <div class="overlayText" id="overlayText">Press Play</div>
+            <div class="overlayBtns">
+              <button class="btn small primary" id="overlayPlay">Play</button>
+              <button class="btn small" id="overlayMenu">Menu</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="footer">
+        Tip: If GitHub Pages is on, your paths must be <b>relative</b> (this project is).
+      </footer>
+    </main>
+  </div>
+
+  <script src="./main.js"></script>
+</body>
+</html>
