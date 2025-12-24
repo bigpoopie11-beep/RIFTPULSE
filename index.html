@@ -1,83 +1,77 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
   <title>RIFTPULSE</title>
-  <link rel="stylesheet" href="./style.css"/>
+  <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
-  <div class="app" id="app">
-    <aside class="panel" id="panel">
+  <div class="app">
+    <aside class="side">
       <div class="brand">
-        <span class="dot"></span>
+        <div class="dot"></div>
         <div>
-          <div class="name">RIFTPULSE</div>
-          <div class="tag">OG dash-style • tap to jump</div>
+          <div class="title">RIFTPULSE</div>
+          <div class="sub">OG dash-style • click/space to jump</div>
         </div>
       </div>
 
-      <div class="card">
+      <div class="section">
         <div class="row">
-          <div class="muted">Status</div>
+          <div class="label">Status</div>
           <div class="pill" id="statusPill">Menu</div>
         </div>
+      </div>
 
+      <div class="btns">
         <button class="btn primary" id="btnPlay">Play</button>
         <button class="btn" id="btnLevels">Levels</button>
         <button class="btn" id="btnRestart">Restart</button>
+      </div>
 
-        <div class="sep"></div>
+      <div class="toggles">
+        <label class="toggle"><input id="musicToggle" type="checkbox" checked /> <span>Music</span></label>
+        <label class="toggle"><input id="fxToggle" type="checkbox" checked /> <span>Sound FX</span></label>
+        <label class="toggle"><input id="liteToggle" type="checkbox" /> <span>Lite Mode (more FPS)</span></label>
+      </div>
 
-        <label class="toggle">
-          <input type="checkbox" id="musicToggle" checked/>
-          <span>Music</span>
-        </label>
-
-        <label class="toggle">
-          <input type="checkbox" id="fxToggle" checked/>
-          <span>Sound FX</span>
-        </label>
-
-        <label class="toggle">
-          <input type="checkbox" id="liteToggle"/>
-          <span>Lite Mode (more FPS)</span>
-        </label>
-
-        <div class="help">
-          Jump: <b>Space</b> / <b>Click</b><br/>
-          Pause: <b>P</b> • Menu: <b>Esc</b><br/>
-          (Only this <b>Play</b> starts the game)
-        </div>
+      <div class="help">
+        Jump: Space / Click<br/>
+        Pause: P • Menu: Esc<br/>
+        (Only this Play starts the game)
       </div>
     </aside>
 
-    <main class="stage">
-      <div class="topbar" id="topbar">
+    <main class="main">
+      <header class="top">
         <div>
-          <div class="title" id="screenTitle">Pick a Level</div>
-          <div class="subtitle" id="screenSub">Select one, then press Play</div>
+          <div class="h1" id="screenTitle">Pick a Level</div>
+          <div class="h2" id="screenSub">Select one, then press Play</div>
         </div>
-        <div class="stats">
+        <div class="scores">
           <div>Best: <span id="bestPct">0%</span></div>
           <div>Run: <span id="runPct">0%</span></div>
         </div>
-      </div>
+      </header>
 
-      <div class="content">
-        <div class="levels" id="levelsList"></div>
-        <canvas id="game"></canvas>
-      </div>
+      <section class="content">
+        <div class="panel left">
+          <div class="panelTitle">Levels</div>
+          <div id="levelsList" class="levelsList"></div>
+        </div>
 
-      <div class="footer" id="footer">
-        Tip: Play → fullscreen. You only see the level until Esc.
-      </div>
+        <div class="panel stage">
+          <canvas id="game"></canvas>
+        </div>
+      </section>
     </main>
   </div>
 
   <script src="./main.js"></script>
 </body>
 </html>
+
 
 
 
