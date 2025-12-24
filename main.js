@@ -515,6 +515,7 @@
     if(player.onGround) coyote=COYOTE_MAX;
     else coyote=Math.max(0,coyote-dt);
 
+   const prevPlayerY = player.y;
     player.vy -= GRAV*dt;
     player.vy = Math.max(player.vy, MAXF);
     player.y += player.vy*dt;
@@ -613,15 +614,15 @@
   if (!hit) continue;
 
   // --- LANDING CHECK (from above) ---
-  const prevPy = (gy - player.s - (player.y - player.vy * dt)); // previous frame player top
-  const prevBottom = prevPy + prh;
+  const prevPy = gy - player.s - prevPlayerY; // REAL previous frame player top
+const prevBottom = prevPy + prh;
   const nowBottom = pry + prh;
 
   const blockTop = by;
   const withinX = (prx + prw) > bx && prx < (bx + bw);
 
   // If we crossed the block top this frame, we LAND (and do NOT die)
-  if (withinX && prevBottom <= blockTop + 1 && nowBottom >= blockTop - 1 && player.vy <= 0) {
+ if (prevBottom <= blockTop + 6 && nowBottom >= blockTop - 6 && player.vy <= 0) {
     // snap onto top
     player.y = (gy - player.s) - blockTop;
     player.vy = 0;
